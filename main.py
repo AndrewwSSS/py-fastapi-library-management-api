@@ -26,7 +26,7 @@ def read_authors(
     offset: int = None,
     limit: int = None,
     db: Session = Depends(get_db)
-):
+) -> [schemas.Author]:
     return crud.get_authors_list(
         db,
         offset=offset,
@@ -46,7 +46,7 @@ def read_author(author_id: int, db: Session = Depends(get_db)):
 def create_author(
     author: schemas.AuthorCreate,
     db: Session = Depends(get_db),
-):
+) -> schemas.Author:
     return crud.create_author(db, author)
 
 
@@ -56,7 +56,7 @@ def read_books(
     limit: int = None,
     author_id: int = None,
     db: Session = Depends(get_db)
-):
+) -> [schemas.Book]:
     return crud.get_books_list(
         db,
         offset=offset,
@@ -69,7 +69,7 @@ def read_books(
 def read_single_book(
     book_id: int,
     db: Session = Depends(get_db)
-):
+) -> schemas.Book:
     book = crud.get_single_book(db, book_id)
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
@@ -80,5 +80,5 @@ def read_single_book(
 def create_book(
     book: schemas.BookCreate,
     db: Session = Depends(get_db),
-):
+) -> schemas.Book:
     return crud.create_book(db, book)

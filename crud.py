@@ -8,7 +8,7 @@ def get_authors_list(
         db: Session,
         offset: int = None,
         limit: int = None,
-):
+) -> [models.Author]:
     query = db.query(models.Author)
     if offset:
         query = query.offset(offset)
@@ -17,13 +17,19 @@ def get_authors_list(
     return query.all()
 
 
-def get_single_author(db: Session, author_id: int):
+def get_single_author(
+        db: Session,
+        author_id: int
+) -> models.Author | None:
     return db.query(models.Author).filter(
         models.Author.id == author_id
     ).first()
 
 
-def create_author(db: Session, author: schemas.AuthorCreate) -> models.Author:
+def create_author(
+        db: Session,
+        author: schemas.AuthorCreate
+) -> models.Author:
     db_author = models.Author(
         name=author.name,
         bio=author.bio,
@@ -39,7 +45,7 @@ def get_books_list(
     offset: int = None,
     limit: int = None,
     author_id: int = None,
-):
+) -> [models.Book]:
     query = db.query(models.Book)
     if author_id:
         query = query.filter(models.Book.author_id == author_id)
@@ -50,7 +56,10 @@ def get_books_list(
     return query.all()
 
 
-def get_single_book(db: Session, book_id: int):
+def get_single_book(
+        db: Session,
+        book_id: int
+) -> models.Book | None:
     return db.query(models.Book).filter(
         models.Book.id == book_id
     ).first()
